@@ -1,0 +1,126 @@
+{
+  "Discounts": {
+    "formulas": [],
+    "raw_inputs": [
+      {
+        "column": "Product",
+        "dtype": "str"
+      },
+      {
+        "column": "Discount",
+        "dtype": "int"
+      }
+    ]
+  },
+  "Global_Margins": {
+    "formulas": [],
+    "raw_inputs": [
+      {
+        "column": "Global_Margin",
+        "dtype": "int"
+      },
+      {
+        "column": "Value",
+        "dtype": "float"
+      }
+    ]
+  },
+  "Tax": {
+    "formulas": [],
+    "raw_inputs": [
+      {
+        "column": "Products",
+        "dtype": "str"
+      },
+      {
+        "column": "Tax_Rate",
+        "dtype": "float"
+      }
+    ]
+  },
+  "Products": {
+    "formulas": [],
+    "raw_inputs": [
+      {
+        "column": "ProductID",
+        "dtype": "str"
+      },
+      {
+        "column": "Name",
+        "dtype": "str"
+      },
+      {
+        "column": "BasePrice",
+        "dtype": "int"
+      }
+    ]
+  },
+  "Sales": {
+    "formulas": [
+      {
+        "column": "Price_Adjusted",
+        "formula": "=VLOOKUP(B2,Products!$A$2:$C$5,3, FALSE) * C2 - (C2 * VLOOKUP(B2,Products!$A$2:$C$5, 3, FALSE) * VLOOKUP(B2,Tax!$A$2:$B$5, 2, FALSE)) - (C2 * VLOOKUP(B2, Discounts!$A$2:$B$5, 2, FALSE))",
+        "dtype": "int",
+        "depends_on": [
+          "Tax.Products",
+          "Discounts.Discount",
+          "Products.ProductID",
+          "Discounts.Product",
+          "Sales.ProductID",
+          "Tax.Tax_Rate",
+          "Products.BasePrice",
+          "Sales.Quantity"
+        ],
+        "method_name": "calculate_price_adjusted"
+      }
+    ],
+    "raw_inputs": [
+      {
+        "column": "TransactionID",
+        "dtype": "int"
+      },
+      {
+        "column": "ProductID",
+        "dtype": "str"
+      },
+      {
+        "column": "Quantity",
+        "dtype": "int"
+      }
+    ]
+  },
+  "Financials": {
+    "formulas": [
+      {
+        "column": "Total_Sales",
+        "formula": "=SUM(Sales!D2:D6)",
+        "dtype": "float",
+        "depends_on": [
+          "Sales.Price_Adjusted"
+        ],
+        "method_name": "calculate_total_sales"
+      },
+      {
+        "column": "Global_Margins_Value",
+        "formula": "=A2-(A2*Global_Margins!B2)",
+        "dtype": "float",
+        "depends_on": [
+          "Global_Margins.Value",
+          "Financials.Total_Sales"
+        ],
+        "method_name": "calculate_global_margins_value"
+      },
+      {
+        "column": "Profit_Loss",
+        "formula": "=IF(B2>Global_Margins!A2, \"Profit\", \"Loss\")",
+        "dtype": "str",
+        "depends_on": [
+          "Global_Margins.Global_Margin",
+          "Financials.Global_Margins_Value"
+        ],
+        "method_name": "calculate_profit_loss"
+      }
+    ],
+    "raw_inputs": []
+  }
+}

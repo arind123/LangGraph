@@ -7,7 +7,6 @@ from typing import Annotated, Sequence, TypedDict
 import os
 from dotenv import load_dotenv
 
-from dotenv import load_dotenv  
 from langchain_core.messages import BaseMessage # The foundational class for all message types in LangGraph
 from langchain_core.messages import ToolMessage # Passes data back to LLM after it calls a tool such as the content and the tool_call_id
 from langchain_core.messages import SystemMessage # Message for providing instructions to the LLM
@@ -98,5 +97,5 @@ def print_stream(stream):
             message.pretty_print()
 
 
-inputs = {"messages": [("user", "What will be the result if we add 1,9,8 and 7 then multiply the result by 7.")]}
+inputs = {"messages": [("user", "Add 1 to 10 and then divid by 100.")]}
 print_stream(app.stream(inputs, stream_mode="values"))

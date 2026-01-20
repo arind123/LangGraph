@@ -1,0 +1,21 @@
+=== AGENT VALIDATION HISTORY ===
+
+--- 🧪 ITERATION 1 ---
+❌ FAIL: Price_Adjusted in Sales
+Formula: =VLOOKUP(B2,Products!$A$2:$C$5,3, FALSE) * C2 - (C2 * VLOOKUP(B2,Products!$A$2:$C$5, 3, FALSE) * VLOOKUP(B2,Tax!$A$2:$B$5, 2, FALSE)) - (C2 * VLOOKUP(B2, Discounts!$A$2:$B$5, 2, FALSE))
+Sample Mismatches:
+   Excel_Actual  Python_Calculated
+2        1172.5               1172
+
+❌ MISSING COLUMN: Total_Sales was not found in Financials output.
+❌ MISSING COLUMN: Global_Margins_Value was not found in Financials output.
+❌ MISSING COLUMN: Profit_Loss was not found in Financials output.
+--------------------------------------------------
+--- 🧪 ITERATION 2 ---
+✅ PASS: Sales -> Price_Adjusted
+✅ PASS: Financials -> Total_Sales
+✅ PASS: Financials -> Global_Margins_Value
+✅ PASS: Financials -> Profit_Loss
+--------------------------------------------------
+
+🎉 FINAL STATUS: SUCCESS. All formulas verified.
